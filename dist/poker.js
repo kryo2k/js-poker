@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const poker = require('../json/poker.json');
+/**
+* Does a binary search on products to find the nearest
+* key provided in input.
+*/
 function findIt(key) {
     const products = poker.products;
     let low = 0, high = 4887, mid, pmid;
@@ -16,16 +20,25 @@ function findIt(key) {
     }
     throw new RangeError(`No match found; key = ${key}`);
 }
+/**
+* Gets the human text description of a hand rank.
+*/
 function handRankLabel(rank) {
     return poker.handRank[rank];
 }
 exports.handRankLabel = handRankLabel;
 ;
+/**
+* Gets the human text description of a hand rank detail value.
+*/
 function handRankDetailLabel(rank) {
     return poker.handRankDetail[rank];
 }
 exports.handRankDetailLabel = handRankDetailLabel;
 ;
+/**
+* Returns the full text description of an evaluation.
+*/
 function fullHandRankString(val) {
     var rank = handRank(val), rankStr = handRankLabel(rank), rankDet = handRankDetailed(val), rankDetStr = handRankDetailLabel(rankDet);
     return rankStr + (rankDetStr.length > 0 && rankStr.length > 0 ? ' ' : '') + rankDetStr;
@@ -87,6 +100,9 @@ function rank7(c1, c2, c3, c4, c5, c6, c7) {
 }
 exports.rank7 = rank7;
 ;
+/**
+* ENUM for basic poker hand rank
+*/
 var HandRank;
 (function (HandRank) {
     HandRank[HandRank["ROYAL_FLUSH"] = 0] = "ROYAL_FLUSH";
@@ -101,6 +117,9 @@ var HandRank;
     HandRank[HandRank["HIGH_CARD"] = 9] = "HIGH_CARD";
 })(HandRank = exports.HandRank || (exports.HandRank = {}));
 ;
+/**
+* ENUM for detailed poker hand rank
+*/
 var HandRankDetailed;
 (function (HandRankDetailed) {
     HandRankDetailed[HandRankDetailed["HC_SEVEN"] = 0] = "HC_SEVEN";
@@ -687,6 +706,9 @@ var HandRankDetailed;
     HandRankDetailed[HandRankDetailed["SF_ROYAL"] = 581] = "SF_ROYAL";
 })(HandRankDetailed = exports.HandRankDetailed || (exports.HandRankDetailed = {}));
 ;
+/**
+* Classifier for converting a ranked value into a HandRank enum.
+*/
 function handRank(val) {
     if (val > 6185)
         return HandRank.HIGH_CARD; // 1277 high card
@@ -710,6 +732,9 @@ function handRank(val) {
 }
 exports.handRank = handRank;
 ;
+/**
+* Classifier for converting a ranked value into a HandRankDetailed enum.
+*/
 function handRankDetailed(val) {
     // high-cards
     if (val >= 7459)

@@ -1,3 +1,7 @@
+
+/**
+* Card suit unum for standard playing cards
+*/
 export enum Suit {
   CLUB,
   DIAMOND,
@@ -5,6 +9,9 @@ export enum Suit {
   SPADE
 };
 
+/**
+* Card rank unum for standard playing cards (no jokers)
+*/
 export enum Rank {
   TWO,
   THREE,
@@ -21,13 +28,22 @@ export enum Rank {
   ACE
 };
 
+/**
+* Primitive card object.
+*/
 export interface ICardObject { suit: Suit; rank: Rank; };
 
+/**
+* A two card hand
+*/
 export interface I2CardHand {
   0 : ICardObject;
   1 : ICardObject;
 };
 
+/**
+* A five card hand
+*/
 export interface I5CardHand extends Array<ICardObject>{
   0 : ICardObject;
   1 : ICardObject;
@@ -36,6 +52,9 @@ export interface I5CardHand extends Array<ICardObject>{
   4 : ICardObject;
 };
 
+/**
+* A seven card hand
+*/
 export interface I7CardHand extends Array<ICardObject>{
   0 : ICardObject;
   1 : ICardObject;
@@ -53,18 +72,30 @@ SUITCHR    = 'CDHS',
 RANKCHR    = '23456789TJQKA',
 SUITLAST   = true;
 
+/**
+* Convert a suit and rank to a card object
+*/
 export function toObject(suit: Suit, rank: Rank) : ICardObject {
   return { suit, rank };
 };
 
+/**
+* Convert a suit and rank to a long card string (i.e. ACE OF DIAMONDS)
+*/
 export function toLongString(suit: Suit, rank: Rank) : string {
   return `${Rank[rank]} OF ${Suit[suit]}S`;
 };
 
+/**
+* Convert a suit and rank to a number (using prime numbers)
+*/
 export function toNumber(suit: Suit, rank: Rank) : number {
   return RANKPRIMES[rank] | (rank << 8) | SUITNUMS[suit] | (1 << (16 + rank));
 };
 
+/**
+* Determine if argument is a valid card object.
+*/
 export function isCardObject(v : any) : v is ICardObject {
   return (typeof v === 'object'
     && typeof v.suit === 'number'
@@ -72,6 +103,9 @@ export function isCardObject(v : any) : v is ICardObject {
   )
 };
 
+/**
+* Is a 5 carded hand.
+*/
 export function isHand5(v : any) : v is I5CardHand {
   return Array.isArray(v) && v.length === 5
     && isCardObject(v[0])
@@ -81,6 +115,9 @@ export function isHand5(v : any) : v is I5CardHand {
     && isCardObject(v[4]);
 };
 
+/**
+* Is a 7 carded hand.
+*/
 export function isHand7(v : any) : v is I7CardHand {
   return Array.isArray(v) && v.length === 7
     && isCardObject(v[0])
@@ -92,6 +129,9 @@ export function isHand7(v : any) : v is I7CardHand {
     && isCardObject(v[6]);
 };
 
+/**
+* Convert a number into a card object, or return FALSE if invalid.
+*/
 export function fromNumber(num: number) : ICardObject|false {
 
   let
@@ -109,11 +149,17 @@ export function fromNumber(num: number) : ICardObject|false {
   return { suit, rank };
 };
 
+/**
+* convert a suit and rank into a short string (i.e. AC)
+*/
 export function toShortString(suit: Suit, rank: Rank) : string {
   const rankChr = RANKCHR[rank], suitChr = SUITCHR[suit];
   return SUITLAST ? rankChr + suitChr : suitChr + rankChr;
 };
 
+/**
+* Convert a short string back into a card object, or returns FALSE if invalid.
+*/
 export function fromShortString(str: string) : ICardObject|false {
   if(!str || str.length < 2) return false;
 
@@ -129,12 +175,21 @@ export function fromShortString(str: string) : ICardObject|false {
   return { suit: suitIdx, rank: rankIdx };
 };
 
+/**
+* Delimiter to use in handString/stringHand operations.
+*/
 export var DELIMITER : string = '|';
 
+/**
+* Hand string function converts card objects into a string (i.e. AC|JC|TC|KC|QC)
+*/
 export function handString(... cards : ICardObject[]) : string {
   return cards.map(c => toShortString(c.suit, c.rank)).join(DELIMITER);
 };
 
+/**
+* Converts a hand string back into an array of card objects
+*/
 export function stringHand(hand : string) : ICardObject[] {
   return hand.split(DELIMITER).reduce((p, c) => {
     const d = fromShortString(c);
@@ -144,6 +199,9 @@ export function stringHand(hand : string) : ICardObject[] {
   }, [] as ICardObject[]);
 };
 
+/**
+* Create a 2 carded hand from string.
+*/
 export function str2(str : string) : I2CardHand {
   const  h : any = stringHand(str).slice(0, 2);
 
@@ -157,6 +215,9 @@ export function str2(str : string) : I2CardHand {
   throw new Error('Invalid 2 card hand.');
 };
 
+/**
+* Create a 5 carded hand from string.
+*/
 export function str5(str : string) : I5CardHand {
   const  h = stringHand(str).slice(0, 5);
 
@@ -166,6 +227,9 @@ export function str5(str : string) : I5CardHand {
   return h;
 };
 
+/**
+* Create a 7 carded hand from string.
+*/
 export function str7(str : string) : I7CardHand {
   const  h : any = stringHand(str).slice(0, 7);
 

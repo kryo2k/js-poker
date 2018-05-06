@@ -12,6 +12,10 @@ const poker = require('../json/poker.json') as {
   handRankDetail : string[];
 };
 
+/**
+* Does a binary search on products to find the nearest
+* key provided in input.
+*/
 function findIt(key : number) : number {
 
   const products = poker.products;
@@ -36,14 +40,23 @@ function findIt(key : number) : number {
   throw new RangeError(`No match found; key = ${key}`);
 }
 
+/**
+* Gets the human text description of a hand rank.
+*/
 export function handRankLabel(rank : HandRank) : string {
   return poker.handRank[rank];
 };
 
+/**
+* Gets the human text description of a hand rank detail value.
+*/
 export function handRankDetailLabel(rank : HandRankDetailed) : string {
   return poker.handRankDetail[rank];
 };
 
+/**
+* Returns the full text description of an evaluation.
+*/
 export function fullHandRankString(val : number) : string {
 
   var
@@ -148,6 +161,9 @@ export function rank7(
   return rank7num(toValue(c1), toValue(c2), toValue(c3), toValue(c4), toValue(c5), toValue(c6), toValue(c7));
 };
 
+/**
+* ENUM for basic poker hand rank
+*/
 export enum HandRank {
   ROYAL_FLUSH,
   STRAIGHT_FLUSH,
@@ -161,6 +177,9 @@ export enum HandRank {
   HIGH_CARD
 };
 
+/**
+* ENUM for detailed poker hand rank
+*/
 export enum HandRankDetailed {
   HC_SEVEN,
   HC_EIGHT,
@@ -746,6 +765,9 @@ export enum HandRankDetailed {
   SF_ROYAL,
 };
 
+/**
+* Classifier for converting a ranked value into a HandRank enum.
+*/
 export function handRank(val : number) : HandRank {
   if (val > 6185) return HandRank.HIGH_CARD;        // 1277 high card
   if (val > 3325) return HandRank.ONE_PAIR;         // 2860 one pair
@@ -759,6 +781,9 @@ export function handRank(val : number) : HandRank {
   return HandRank.ROYAL_FLUSH;                      //    1 royal flush
 };
 
+/**
+* Classifier for converting a ranked value into a HandRankDetailed enum.
+*/
 export function handRankDetailed(val : number) : HandRankDetailed {
 
   // high-cards

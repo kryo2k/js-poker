@@ -1,11 +1,12 @@
 {
   "name": "js-poker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A typescript poker library. Adapted from C library made by wojtekmach & jamesma.",
   "main": "npm run start",
   "scripts": {
     "test": "mocha -r ts-node/register src/**/*.spec.ts",
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "pull-typings": "mv dist/card.d.ts dist/deck.d.ts dist/poker.d.ts ./"
   },
   "keywords": [],
   "author": "Hans Doller <kryo2k@gmail.com>",

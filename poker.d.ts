@@ -1,6 +1,15 @@
 import { ICardObject } from './card';
+/**
+* Gets the human text description of a hand rank.
+*/
 export declare function handRankLabel(rank: HandRank): string;
+/**
+* Gets the human text description of a hand rank detail value.
+*/
 export declare function handRankDetailLabel(rank: HandRankDetailed): string;
+/**
+* Returns the full text description of an evaluation.
+*/
 export declare function fullHandRankString(val: number): string;
 /**
 * Convert card into it's numerical poker value
@@ -22,6 +31,9 @@ export declare function rank7num(c1: number, c2: number, c3: number, c4: number,
 * Grade 7 cards and get poker hand ranking.
 */
 export declare function rank7(c1: ICardObject, c2: ICardObject, c3: ICardObject, c4: ICardObject, c5: ICardObject, c6: ICardObject, c7: ICardObject): number;
+/**
+* ENUM for basic poker hand rank
+*/
 export declare enum HandRank {
     ROYAL_FLUSH = 0,
     STRAIGHT_FLUSH = 1,
@@ -34,6 +46,9 @@ export declare enum HandRank {
     ONE_PAIR = 8,
     HIGH_CARD = 9,
 }
+/**
+* ENUM for detailed poker hand rank
+*/
 export declare enum HandRankDetailed {
     HC_SEVEN = 0,
     HC_EIGHT = 1,
@@ -618,5 +633,11 @@ export declare enum HandRankDetailed {
     SF_KING = 580,
     SF_ROYAL = 581,
 }
+/**
+* Classifier for converting a ranked value into a HandRank enum.
+*/
 export declare function handRank(val: number): HandRank;
+/**
+* Classifier for converting a ranked value into a HandRankDetailed enum.
+*/
 export declare function handRankDetailed(val: number): HandRankDetailed;
